@@ -4,10 +4,15 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import "semantic-ui-css/semantic.min.css";
 
+import { StoreProvider } from "./utils/StoreProvider";
+import { UserContextProvider } from "./utils/UserContext";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
+  <BrowserRouter>
+    <UserContextProvider>
+      <StoreProvider>
+        <App />
+      </StoreProvider>
+    </UserContextProvider>
+  </BrowserRouter>
 );

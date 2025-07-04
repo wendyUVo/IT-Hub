@@ -1,10 +1,20 @@
 import React from "react";
+import HeaderImage from "../components/HeaderImage";
+import Layout from "../components/Layout";
+import NavBar from "../components/NavBar";
+import PostsList from "../components/PostsList";
 
-export default function Home() {
+function Home() {
   return (
-    <div style={{ textAlign: "center", marginTop: "5rem" }}>
-      <h1>Welcome to IT Hub</h1>
-      <p>This is the home page.</p>
-    </div>
+    <>
+      <HeaderImage />
+      <Layout>
+        <NavBar />
+        <div>Loading Posts ....</div>
+        <PostsList />
+      </Layout>
+    </>
   );
 }
+
+export default Home;

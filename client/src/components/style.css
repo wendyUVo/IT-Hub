@@ -1,0 +1,101 @@
+/* ========== Header Message ========== */
+.ui.message {
+  background-color: #2f2f2f !important;
+  color: white;
+  box-shadow: none !important;
+  border-radius: 0;
+  margin-bottom: 4rem !important;
+  padding-top: 6rem;
+  padding-bottom: 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Fix: remove extra space typo */
+.ui.massive.message {
+  margin-bottom: 4rem !important;
+}
+
+/* ========== Banner ========== */
+.hero-banner {
+  position: relative;
+  overflow: hidden;
+  background-color: black;
+  height: 85vh; /* increase this value for more height */
+  margin-bottom: 4rem;
+  padding: 6rem 1rem 4rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+/* ========== Particle Background ========== */
+#particles-js,
+#tsparticles,
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1; /* Ensure particles are visible */
+}
+
+#tsparticles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+}
+
+@media (max-width: 392px) {
+  #tsparticles {
+    display: none;
+  }
+}
+
+/* ========== Navigation Menu ========== */
+.ui.borderless.inverted.menu {
+  background-color: black !important;
+  border-radius: 4px;
+  flex-wrap: wrap;
+  padding-left: 4rem;
+}
+
+.ui.borderless.inverted.menu .active.item {
+  background-color: black !important;
+}
+
+/* ========== Mobile Menu Dropdown ========== */
+.mobile.only .menu.vertical {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  background-color: #1b1c1d;
+}
+
+.mobile.only .menu.vertical .item {
+  padding: 1rem;
+  color: white;
+  text-align: center;
+}
+
+/* ========== Utility ========== */
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+.mt-5 {
+  margin-top: 3rem !important;
+}
