@@ -1,30 +1,137 @@
-/* ========== Header Message ========== */
-.ui.message {
-  background-color: #2f2f2f !important;
-  color: white;
-  box-shadow: none !important;
+/* ========== Global ========== */
+body,
+html,
+#root {
+  height: 100%;
+  margin: 0;
+  background-color: #f4f4f4 !important;
+  color: #222;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* ========== Particle Background ========== */
+#particles-js,
+#tsparticles,
+.particle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+/* ========== Navbar ========== */
+.ui.borderless.inverted.menu {
+  background-color: black !important;
   border-radius: 0;
-  margin-bottom: 4rem !important;
-  padding-top: 6rem;
-  padding-bottom: 4rem;
+  padding: 0.8rem 2rem;
+}
+
+.ui.borderless.inverted.menu .active.item {
+  background-color: black !important;
+}
+
+.ui.menu .item {
+  color: white !important;
+}
+
+.ui.menu .item:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+/* Mobile menu */
+.mobile.only .menu.vertical {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  background-color: #1b1c1d;
   text-align: center;
+}
+
+.mobile.only .menu.vertical .item {
+  padding: 1rem;
+  color: white;
+}
+
+/* ========== Login Container ========== */
+.login-page {
   position: relative;
-  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  background-color: #1c1c1c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
 }
 
-/* Fix: remove extra space typo */
-.ui.massive.message {
-  margin-bottom: 4rem !important;
+.ui.center.aligned.middle.aligned.grid.login-container {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  min-height: 100vh;
 }
 
-/* ========== Banner ========== */
+/* ========== Login Form ========== */
+.ui.segment {
+  background-color: #f9f9f9 !important;
+  padding: 3rem !important;
+  border-radius: 10px !important;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.35) !important;
+}
+
+.ui.message {
+  background-color: #333 !important;
+  color: #fff !important;
+  border: none;
+  text-align: center;
+}
+
+.custom-message {
+  background-color: #222 !important;
+  color: #fff !important;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* ========== SignUp Form ========== */
+
+/* Signup Page Container */
+.signup-page {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background-color: #111;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Start from top */
+  padding-top: 5rem; /* Move form down slightly from navbar */
+  z-index: 1;
+}
+
+/* Signup form wrapper control */
+.signup-form-wrapper {
+  z-index: 2;
+  margin-top: 2rem; /* Fine-tune vertical spacing */
+}
+/* Grid inside SignUp form */
+.ui.grid.signup-form-container {
+  margin-top: 0 !important;
+  padding-top: 1rem;
+  z-index: 2;
+}
+
+/* ========== Banner (Home Page Hero) ========== */
 .hero-banner {
   position: relative;
   overflow: hidden;
   background-color: black;
-  height: 85vh; /* increase this value for more height */
-  margin-bottom: 4rem;
+  height: 85vh;
   padding: 6rem 1rem 4rem;
+  margin-bottom: 4rem;
   text-align: center;
   display: flex;
   align-items: center;
@@ -37,65 +144,17 @@
   color: white;
 }
 
-/* ========== Particle Background ========== */
-#particles-js,
-#tsparticles,
-.particle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh; /* Full viewport height */
-  z-index: 0;
-  pointer-events: none;
-  opacity: 1; /* Ensure particles are visible */
-}
-
-#tsparticles-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 0;
-}
-
-@media (max-width: 392px) {
-  #tsparticles {
-    display: none;
-  }
-}
-
-/* ========== Navigation Menu ========== */
-.ui.borderless.inverted.menu {
-  background-color: black !important;
-  border-radius: 4px;
-  flex-wrap: wrap;
-  padding-left: 4rem;
-}
-
-.ui.borderless.inverted.menu .active.item {
-  background-color: black !important;
-}
-
-/* ========== Mobile Menu Dropdown ========== */
-.mobile.only .menu.vertical {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem 0;
-  background-color: #1b1c1d;
-}
-
-.mobile.only .menu.vertical .item {
-  padding: 1rem;
-  color: white;
-  text-align: center;
-}
-
 /* ========== Utility ========== */
 .mb-5 {
   margin-bottom: 3rem !important;
 }
 .mt-5 {
   margin-top: 3rem !important;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 392px) {
+  #tsparticles {
+    display: none;
+  }
 }
