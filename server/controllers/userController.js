@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { validationResult } = require("express-validator");
 
 // Signup Controller
 exports.signup = async (req, res) => {
@@ -32,15 +33,20 @@ exports.signup = async (req, res) => {
 // Login Controller
 exports.login = async (req, res, next) => {
   const errors = validationResult(req);
-  if (!error.isEmpty()) {
+  if (!errors.isEmpty()) {
     return res.status(422).json({ error: errors.array()[0].msg });
   }
 
-  //Passport handles the session logic. Response with success
-  const loginUser = {
-    email: req.body.email,
-  };
-  return res.status(200).json({ message: "Login successful", user: loginUser });
+  // Passport already authenticated the user and stored it in req.user
+  return res.status(200).json({
+    message: "Login successful",
+    user: {
+      id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      profilePicUrl: req.user.profilePicUrl,
+    },
+  });
 };
 
 //Get current user

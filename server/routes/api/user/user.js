@@ -33,6 +33,13 @@ router.post(
 router.get("/", isAuthenticated, getCurrentUser);
 
 // Logout
-router.get("/logout", logout);
+// router.get("/logout", logout);
+router.get("/logout", (req, res) => {
+  req.logout(() => {
+    req.session.destroy();
+    res.clearCookie("connect.sid"); // clears cookie from browser
+    res.status(200).send("Logged out");
+  });
+});
 
 module.exports = router;

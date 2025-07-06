@@ -1,5 +1,9 @@
+const User = require("./user");
+const Post = require("./post");
+const Profile = require("./profile");
+
 module.exports = {
-  User: require("./user"),
-  Post: require("./post"),
-  Profile: require("./profile"),
+  Post,
+  User,
+  Profile,
 };

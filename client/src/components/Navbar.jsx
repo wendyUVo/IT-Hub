@@ -39,13 +39,18 @@ function Navbar() {
             </Menu.Item>
             <Menu.Item position="right">
               {user ? (
-                <Button
-                  inverted
-                  style={{ marginLeft: "0.5em" }}
-                  onClick={handleLogout}
-                >
-                  Sign Out
-                </Button>
+                <>
+                  <span style={{ color: "white", marginRight: "1em" }}>
+                    Welcome, <strong>{user.name}</strong>
+                  </span>
+                  <Button
+                    inverted
+                    style={{ marginLeft: "0.5em" }}
+                    onClick={handleLogout}
+                  >
+                    Sign Out
+                  </Button>
+                </>
               ) : (
                 <>
                   <Button as={Link} to="/login" inverted>
@@ -66,9 +71,10 @@ function Navbar() {
         </Container>
       </Grid>
 
+      {/* Mobile View */}
       <Grid className="mobile only">
         <Menu inverted borderless fluid size="huge" fixed="top">
-          <Menu.Item header as="a">
+          <Menu.Item header as={Link} to="/">
             IT Hub
           </Menu.Item>
           <Menu.Menu position="right">
@@ -79,21 +85,29 @@ function Navbar() {
             </Menu.Item>
           </Menu.Menu>
           <Menu vertical borderless inverted fluid style={dropdownMenuStyle}>
-            <Menu.Item as={Link} to="/">
+            <Menu.Item as={Link} to="/home">
               Home
             </Menu.Item>
-            <Menu.Item as={Link} to="/about">
-              About
+            <Menu.Item as={Link} to="/dashboard">
+              Dashboard
             </Menu.Item>
-            <Menu.Item as={Link} to="/contact">
-              Contact
-            </Menu.Item>
-            <Menu.Item as={Link} to="/login">
-              Login
-            </Menu.Item>
-            <Menu.Item as={Link} to="/signup">
-              SignUp
-            </Menu.Item>
+            {user ? (
+              <>
+                <Menu.Item disabled>
+                  Welcome, <strong>{user.name}</strong>
+                </Menu.Item>
+                <Menu.Item onClick={handleLogout}>Sign Out</Menu.Item>
+              </>
+            ) : (
+              <>
+                <Menu.Item as={Link} to="/login">
+                  Login
+                </Menu.Item>
+                <Menu.Item as={Link} to="/signup">
+                  SignUp
+                </Menu.Item>
+              </>
+            )}
           </Menu>
         </Menu>
       </Grid>

@@ -19,18 +19,31 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/user/login", { email, password });
+      const response = await axios.post(
+        "/api/user/login",
+        { email, password },
+        { withCredentials: true }
+      );
       setUser(response.data);
-      navigate("/dashboard");
+      setSuccessMessage("✅ Login successful!");
+      setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err) {
       console.error("Login failed:", err);
       alert("Login failed. Please check your credentials.");
     }
+  };
+
+  const handleLogout = () => {
+    axios.get("/api/user/logout", { withCredentials: true }).then(() => {
+      setUser(null);
+      navigate("/");
+    });
   };
 
   return (
@@ -63,6 +76,11 @@ function Login() {
               Login
             </Button>
           </Segment>
+          {successMessage && (
+            <Message positive>
+              <Message.Header>{successMessage}</Message.Header>
+            </Message>
+          )}
         </Form>
         <Message>
           New to us? <a href="/signup">Sign Up</a>

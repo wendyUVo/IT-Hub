@@ -24,8 +24,21 @@ app.use(
   })
 );
 
+const cors = require("cors");
+
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend Vite URL
+    credentials: true,
+  })
+);
+
 // Passport config
-const passport = require("./config/passport"); // if you have a config/passport.js file
+// const passport = require("./config/passport"); // if you have a config/passport.js file
+// app.use(passport.initialize());
+// app.use(passport.session());
+const passport = require("passport");
+require("./config/passport");
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -45,6 +58,11 @@ mongoose
   })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
+// mongoose
+//   .connect(process.env.MONGODB_URI)
+//   .then(() => console.log("✅ MongoDB connected"))
+//   .catch((err) => console.error("❌ MongoDB connection error:", err));
+// console.log("MONGODB_URI:", process.env.MONGODB_URI);
 
 // ========== Start Server ==========
 app.listen(PORT, () => {

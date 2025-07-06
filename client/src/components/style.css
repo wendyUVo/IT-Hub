@@ -41,6 +41,10 @@ html,
 .ui.menu .item:hover {
   background-color: rgba(255, 255, 255, 0.1) !important;
 }
+
+.menu .item strong {
+  color: #00d1b2;
+}
 /* Mobile menu */
 .mobile.only .menu.vertical {
   display: flex;
@@ -156,5 +160,81 @@ html,
 @media (max-width: 392px) {
   #tsparticles {
     display: none;
+  }
+}
+
+/* === DASHBOARD SIDEBAR === */
+/* Desktop styles */
+.mobile-toggle {
+  display: none;
+}
+@media (min-width: 769px) {
+  .dashboard-sidebar {
+    display: block;
+    position: fixed;
+    width: 400px;
+    height: 100vh;
+    background-color: #22867e;
+    padding-top: 4rem;
+  }
+
+  .dashboard-main {
+    margin-left: 400px;
+    padding-left: 30px;
+    padding-top: 100px;
+  }
+}
+
+/* Sidebar text */
+.sidebar-menu {
+  padding: 30px;
+  color: white !important;
+  transition: background-color 0.3s ease;
+}
+/* Hover Effect */
+.sidebar-menu .item:hover {
+  background-color: #040e0d; /* darker shade of #22867E */
+  color: white !important;
+}
+
+.sidebar-menu .item a {
+  font-size: 25px;
+  color: white !important;
+}
+
+/* Show toggle only on mobile */
+
+@media (max-width: 768px) {
+  .mobile-toggle {
+    display: block;
+    position: fixed;
+    top: 7rem;
+    left: 1rem;
+    z-index: 1000;
+    background: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+  }
+
+  .dashboard-sidebar {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background-color: #22867e;
+    width: 400px;
+    height: 100vh;
+    padding-top: 4rem;
+    transition: left 0.3s ease;
+    top: 0;
+    left: -400px;
+  }
+
+  .dashboard-sidebar.open {
+    display: block;
+    left: 0;
+  }
+
+  .dashboard-main {
+    margin-left: 0;
   }
 }

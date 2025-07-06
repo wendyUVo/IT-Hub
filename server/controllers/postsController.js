@@ -7,6 +7,7 @@ module.exports = {
       const posts = await db.Post.find(req.query).sort({ date: -1 });
       res.json(posts);
     } catch (err) {
+      console.error("❌ Error fetching posts:", err);
       res.status(500).json({ error: "Failed to retrieve posts" });
     }
   },

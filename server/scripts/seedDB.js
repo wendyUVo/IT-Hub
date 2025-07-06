@@ -1,9 +1,13 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const db = require("../models");
 
 // This file empties the Posts collection and inserts the books below
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/reactcms");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/itHub", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const bookSeed = [
   {
@@ -26,10 +30,10 @@ const bookSeed = [
   },
 ];
 
-db.Post.remove({})
-  .then(() => db.Post.collection.insertMany(bookSeed))
+db.Post.deleteMany({})
+  .then(() => db.Post.insertMany(postSeed))
   .then((data) => {
-    console.log(data.result.n + " records inserted!");
+    console.log(`${data.length} records inserted!`);
     process.exit(0);
   })
   .catch((err) => {
