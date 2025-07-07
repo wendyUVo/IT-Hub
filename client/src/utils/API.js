@@ -1,11 +1,24 @@
 import axios from "axios";
 
-const API = {
-  getPosts: () => axios.get("/api/posts"),
-  getPost: (id) => axios.get(`/api/posts/${id}`),
-  deletePost: (id) => axios.delete(`/api/posts/${id}`),
-  savePost: (postData) => axios.post("/api/posts", postData),
-  updatePost: (id, updateData) => axios.put(`/api/posts/${id}`, updateData),
+export default {
+  // Gets all posts
+  getPosts: function () {
+    return axios.get("/api/posts");
+  },
+  // Gets the post with the given id
+  getPost: function (id) {
+    return axios.get("/api/posts/" + id);
+  },
+  // Deletes the post with the given id
+  deletePost: function (id) {
+    return axios.delete("/api/posts/" + id);
+  },
+  // Saves a post to the database
+  savePost: function (postData) {
+    return axios.post("/api/posts", postData);
+  },
+  //Update the post
+  updatePost: function (id, postData) {
+    return axios.put("/api/posts/" + id, postData);
+  },
 };
-
-export default API;

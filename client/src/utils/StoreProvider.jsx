@@ -8,6 +8,7 @@ import {
   UPDATE_FAVORITES,
   REMOVE_FAVORITE,
   LOADING,
+  UPDATE_SINGLE_POST,
 } from "./actions";
 
 const StoreContext = createContext();
@@ -20,13 +21,22 @@ const reducer = (state, action) => {
     case UPDATE_POSTS:
       return { ...state, posts: action.posts, loading: false };
 
+    case UPDATE_SINGLE_POST:
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.post._id ? action.post : post
+        ),
+        loading: false,
+      };
+
     case ADD_POST:
       return { ...state, posts: [action.post, ...state.posts], loading: false };
 
     case REMOVE_POST:
       return {
         ...state,
-        posts: state.posts.filer((post) => post._id !== action._id),
+        posts: state.posts.filter((post) => post._id !== action._id),
       };
 
     case ADD_FAVORITE:
@@ -39,7 +49,7 @@ const reducer = (state, action) => {
     case UPDATE_FAVORITES:
       return {
         ...state,
-        favorites: [...action.favorites],
+        favorites: Array.isArray(action.favorites) ? [...action.favorites] : [],
         loading: false,
       };
 

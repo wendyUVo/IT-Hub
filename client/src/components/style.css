@@ -163,7 +163,7 @@ html,
   }
 }
 
-/* === DASHBOARD SIDEBAR === */
+/* === DASHBOARD === */
 /* Desktop styles */
 .mobile-toggle {
   display: none;
@@ -179,9 +179,18 @@ html,
   }
 
   .dashboard-main {
-    margin-left: 400px;
+    /* margin-left: 300px;
     padding-left: 30px;
-    padding-top: 100px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem; */
+    margin-left: 400px;
+    margin-top: 50px;
+    padding: 5rem 2rem 2rem 2rem; /* top-right-bottom-left */
+    display: block;
   }
 }
 
@@ -237,4 +246,37 @@ html,
   .dashboard-main {
     margin-left: 0;
   }
+}
+
+/* === POSTS === */
+.post-meta {
+  font-size: 0.85rem;
+  color: #888;
+  margin-bottom: 0.3rem;
+}
+
+.post-title-link {
+  font-size: 1.5rem !important;
+  color: #22687e !important;
+  margin-bottom: 0.3rem;
+}
+
+.post-title-link:hover {
+  text-decoration: underline;
+}
+
+.post-excerpt {
+  font-size: 1.2rem;
+  color: #444;
+  margin-top: 0.3rem;
+}
+
+.update-profile-form-grid {
+  padding-top: 4rem;
+  padding-left: 4rem;
+}
+
+.update-profile-form-column {
+  max-width: 900px !important;
+  width: 100%;
 }

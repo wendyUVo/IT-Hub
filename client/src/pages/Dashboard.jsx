@@ -9,12 +9,14 @@ import {
   Loader,
   Message,
   Segment,
+  Button,
 } from "semantic-ui-react";
 import axios from "axios";
 import DashboardLayout from "../components/DashboardLayout";
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -24,8 +26,15 @@ const Dashboard = () => {
 
   const loadUser = async () => {
     try {
-      const response = await axios.get("/api/user", { withCredentials: true });
-      setUser(response.data);
+      // const response = await axios.get("/api/user", { withCredentials: true });
+      // setUser(response.data);
+      const [userRes, profileRes] = await Promise.all([
+        axios.get("/api/user", { withCredentials: true }),
+        axios.get("/api/profile/me", { withCredentials: true }),
+      ]);
+
+      setUser(userRes.data);
+      setProfile(profileRes.data);
     } catch (err) {
       console.error("Failed to fetch user:", err);
       setError("Failed to load user profile.");
@@ -72,6 +81,11 @@ const Dashboard = () => {
                 <Icon name="mail" color="teal" />
                 <Header.Content>{user?.email}</Header.Content>
               </Header>
+              {profile?.bio && (
+                <p style={{ marginTop: "1rem", fontSize: "1.1rem" }}>
+                  <strong>Bio:</strong> {profile.bio}
+                </p>
+              )}
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -85,10 +99,62 @@ const Dashboard = () => {
         </Grid.Row>
 
         <Grid.Row>
-          <p style={{ fontSize: "16px", color: "#888" }}>
-            {/* You can display social links here later */}
-            No social links connected yet.
-          </p>
+          {profile?.social ? (
+            <div style={{ paddingLeft: "1rem" }}>
+              {profile.social.facebook && (
+                <Button
+                  as="a"
+                  href={profile.social.facebook}
+                  icon="facebook"
+                  color="facebook"
+                  target="_blank"
+                  circular
+                />
+              )}
+              {profile.social.linkedin && (
+                <Button
+                  as="a"
+                  href={profile.social.linkedin}
+                  icon="linkedin"
+                  color="linkedin"
+                  target="_blank"
+                  circular
+                />
+              )}
+              {profile.social.youtube && (
+                <Button
+                  as="a"
+                  href={profile.social.youtube}
+                  icon="youtube"
+                  color="youtube"
+                  target="_blank"
+                  circular
+                />
+              )}
+              {profile.social.instagram && (
+                <Button
+                  as="a"
+                  href={profile.social.instagram}
+                  icon="instagram"
+                  color="pink"
+                  target="_blank"
+                  circular
+                />
+              )}
+              {!profile.social.facebook &&
+                !profile.social.linkedin &&
+                !profile.social.youtube &&
+                !profile.social.instagram && (
+                  <p style={{ fontSize: "16px", color: "#888" }}>
+                    No social links connected.
+                  </p>
+                )}
+            </div>
+          ) : (
+            <p style={{ fontSize: "16px", color: "#888" }}>
+              No social profile data available.
+            </p>
+          )}
         </Grid.Row>
       </Grid>
     </DashboardLayout>

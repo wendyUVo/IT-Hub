@@ -1,17 +1,13 @@
 const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const Schema = mongoose.Schema;
 
-const postSchema = new Schema(
-  {
-    title: { type: String, required: true, trim: true },
-    author: { type: String, required: true, trim: true },
-    body: { type: String, default: "" },
-    // Consider linking to user directly if needed later:
-    // createdBy: { type: Schema.Types.ObjectId, ref: "User" }
-  },
-  {
-    timestamps: true, // adds createdAt and updatedAt fields
-  }
-);
+const postSchema = new Schema({
+  title: { type: String, required: true },
+  author: { type: String, required: true },
+  body: { type: String },
+  date: { type: Date, default: Date.now },
+});
 
-module.exports = mongoose.model("Post", postSchema);
+const Post = mongoose.model("Post", postSchema);
+
+module.exports = Post;

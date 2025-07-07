@@ -4,22 +4,37 @@ const isAuthenticated = require("../../../config/isAuthenticated");
 const Profile = require("../../../models/profile");
 const User = require("../../../models/user");
 
-// Get current user's profile
 router.get("/me", isAuthenticated, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate(
+    const user = await User.findById(req.user.id).select("name profilePicUrl");
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    let profile = await Profile.findOne({ user: req.user.id }).populate(
       "user",
       ["name", "profilePicUrl"]
     );
 
     if (!profile) {
-      return res.status(400).json({ msg: "Profile not found" });
+      // Always return a consistent, non-null object
+      return res.status(200).json({
+        user,
+        bio: "",
+        social: {
+          facebook: "",
+          youtube: "",
+          linkedin: "",
+          instagram: "",
+        },
+      });
     }
 
-    res.json(profile);
+    return res.status(200).json(profile);
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    console.error("❌ Error in /me route:", err);
+    return res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -27,19 +42,27 @@ router.get("/me", isAuthenticated, async (req, res) => {
 router.post("/update", isAuthenticated, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { bio, facebook, youtube, linkedin, instagram, profilePicUrl } =
-      req.body;
+
+    const { bio, social, profilePicUrl } = req.body;
 
     const profileFields = {
       user: userId,
       bio,
-      social: { facebook, youtube, linkedin, instagram },
+      social: {
+        facebook: social?.facebook || "",
+        youtube: social?.youtube || "",
+        linkedin: social?.linkedin || "",
+        instagram: social?.instagram || "",
+      },
     };
-
     const updatedProfile = await Profile.findOneAndUpdate(
       { user: userId },
       { $set: profileFields },
-      { new: true }
+      {
+        new: true,
+        upsert: true, //  creates profile if not exists
+        setDefaultsOnInsert: true,
+      }
     );
 
     if (profilePicUrl) {
@@ -47,6 +70,8 @@ router.post("/update", isAuthenticated, async (req, res) => {
       user.profilePicUrl = profilePicUrl;
       await user.save();
     }
+
+    console.log("✅ Updated Profile:", updatedProfile);
 
     return res
       .status(200)

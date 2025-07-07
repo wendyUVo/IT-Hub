@@ -20,6 +20,17 @@ function SignUp() {
   const [url, setUrl] = useState("");
   const navigate = useNavigate();
 
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
+
+  const showTemporaryMessage = (message, type = "positive") => {
+    setFeedback(message);
+    setFeedbackType(type);
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
+
   useEffect(() => {
     if (url) {
       uploadUser();
@@ -43,12 +54,13 @@ function SignUp() {
       setUrl(result.url);
     } catch (err) {
       console.error("Image upload failed:", err);
+      showTemporaryMessage("❌ Image upload failed", "negative");
     }
   };
 
   const uploadUser = async () => {
     if (password !== password2) {
-      alert("Passwords do not match!");
+      showTemporaryMessage("❌ Passwords do not match", "negative");
       return;
     }
     const user = {
@@ -59,9 +71,26 @@ function SignUp() {
     };
     try {
       await axios.post("/api/user/signup", user);
-      navigate("/login");
+      showTemporaryMessage(
+        "✅ Signup successful! Redirecting to login...",
+        "positive"
+      );
+      setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
-      console.error("Signup failed:", err);
+      if (
+        err.response &&
+        err.response.status === 422 &&
+        err.response.data.errors
+      ) {
+        // Show first validation error (or map all if needed)
+        const messages = err.response.data.errors
+          .map((e) => `❌ ${e.message}`)
+          .join("\n");
+        showTemporaryMessage(messages, "negative");
+      } else {
+        console.error("Signup failed:", err);
+        showTemporaryMessage("❌ Signup failed. Try again.", "negative");
+      }
     }
   };
 
@@ -132,6 +161,14 @@ function SignUp() {
               Sign Up
             </Button>
           </Segment>
+          {showMessage && (
+            <Message
+              positive={feedbackType === "positive"}
+              negative={feedbackType === "negative"}
+              content={feedback}
+              onDismiss={() => setShowMessage(false)}
+            />
+          )}
         </Form>
         <Message>
           Already have an account? <Link to="/login">Login</Link>

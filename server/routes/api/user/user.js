@@ -21,16 +21,34 @@ const {
 router.post("/signup", userSignupValidator, runValidation, signup);
 
 // Login
-router.post(
-  "/login",
-  userSigninValidator,
-  runValidation,
-  passport.authenticate("local"),
-  login
-);
+router.post("/login", userSigninValidator, runValidation, (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(401).json({ error: info.message || "Login failed" });
+    }
+
+    // Persist login session
+    req.login(user, (err) => {
+      if (err) return next(err);
+      return login(req, res);
+    });
+  })(req, res, next);
+});
 
 // Get current logged-in user
 router.get("/", isAuthenticated, getCurrentUser);
+
+router.get("/user", isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+    if (!user) return res.status(404).json({ error: "User not found" });
+    return res.json(user);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
 
 // Logout
 // router.get("/logout", logout);

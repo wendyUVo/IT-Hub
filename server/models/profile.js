@@ -10,8 +10,8 @@ const profileSchema = new Schema(
     website: { type: String, default: "" },
     location: { type: String, default: "" },
 
-    status: { type: String, required: true, trim: true },
-    skills: { type: [String], required: true },
+    status: { type: String, default: "", trim: true },
+    skills: { type: [String], default: [] },
 
     githubusername: { type: String, default: "" },
     social: {

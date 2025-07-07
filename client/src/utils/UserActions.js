@@ -5,12 +5,15 @@ import {
   UPDATE_PROFILE,
   CLEAR_PROFILE,
   GET_PROFILES,
+  PROFILE_LOADING,
 } from "./actions";
 
 // Get current users profile
 export const getCurrentProfile = () => async (dispatch) => {
   try {
-    const res = await axios.get("/api/profile/me");
+    dispatch({ type: PROFILE_LOADING });
+    const res = await axios.get("/api/profile/me", { withCredentials: true });
+    console.log("✅ Loaded profile:", res.data);
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {
     dispatch({
@@ -26,7 +29,10 @@ export const getCurrentProfile = () => async (dispatch) => {
 // Get profile by ID
 export const getProfileById = (userId) => async (dispatch) => {
   try {
-    const res = await axios.get(`/api/profile/user/${userId}`);
+    dispatch({ type: PROFILE_LOADING });
+    const res = await axios.get(`/api/profile/user/${userId}`, {
+      withCredentials: true,
+    });
     dispatch({ type: GET_PROFILE, payload: res.data });
   } catch (err) {
     dispatch({

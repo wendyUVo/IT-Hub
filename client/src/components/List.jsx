@@ -1,5 +1,5 @@
 import React from "react";
-import { Item } from "semantic-ui-react";
+import { Item, Segment, Header, Divider } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 // List Container
@@ -8,29 +8,28 @@ export function List({ children }) {
 }
 
 // Individual List items
-export function ListItem({
-  id,
-  postTitle = "",
-  author = "Unknown",
-  body = "",
-  date = new Date(),
-}) {
+export function ListItem({ id, postTitle, author, body, date }) {
+  const formattedDate = new Date(date).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
   return (
-    <Item>
-      <Item.Content>
-        <Item.Header as={Link} to={`/posts/${id}`} style={{ fontSize: "24px" }}>
-          {postTitle}
-        </Item.Header>
-        <Item.Meta>
-          {new Date(date).toLocaleDateString("en-AU", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-          })}
-        </Item.Meta>
-        <Item.Description>{body}</Item.Description>
-        <Item.Extra>posted by {author}</Item.Extra>
-      </Item.Content>
-    </Item>
+    <div>
+      <div className="post-meta">
+        {formattedDate} / By {author}
+      </div>
+      <Header as={Link} to={`/posts/${id}`} className="post-title-link">
+        {postTitle}
+      </Header>
+      <p className="post-excerpt"> {stripHtml(body).substring(0, 150)}...</p>
+    </div>
   );
+}
+
+// Helper function to strip HTML tags
+function stripHtml(html) {
+  const div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
 }

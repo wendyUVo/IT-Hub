@@ -19,8 +19,18 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useContext(UserContext);
-  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+
+  const [feedback, setFeedback] = useState("");
+  const [feedbackType, setFeedbackType] = useState(""); // "positive" or "negative"
+  const [showMessage, setShowMessage] = useState(false);
+
+  const showTemporaryMessage = (message, type = "positive") => {
+    setFeedback(message);
+    setFeedbackType(type);
+    setShowMessage(true);
+    setTimeout(() => setShowMessage(false), 3000);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,11 +41,15 @@ function Login() {
         { withCredentials: true }
       );
       setUser(response.data);
-      setSuccessMessage("✅ Login successful!");
+      showTemporaryMessage("✅ Login successful!", "positive");
+
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err) {
       console.error("Login failed:", err);
-      alert("Login failed. Please check your credentials.");
+      showTemporaryMessage(
+        "❌ Login failed. Please check your credentials.",
+        "negative"
+      );
     }
   };
 
@@ -76,10 +90,13 @@ function Login() {
               Login
             </Button>
           </Segment>
-          {successMessage && (
-            <Message positive>
-              <Message.Header>{successMessage}</Message.Header>
-            </Message>
+          {showMessage && (
+            <Message
+              positive={feedbackType === "positive"}
+              negative={feedbackType === "negative"}
+              content={feedback}
+              onDismiss={() => setShowMessage(false)}
+            />
           )}
         </Form>
         <Message>

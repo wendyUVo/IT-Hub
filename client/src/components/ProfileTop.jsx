@@ -1,5 +1,5 @@
 import React from "react";
-import { Segment, Image, Grid, Divider, Header, Icon } from "semantic-ui-react";
+import { Segment, Image, Grid, Header, Icon, Button } from "semantic-ui-react";
 
 function ProfileTop({
   profile: {
@@ -8,84 +8,90 @@ function ProfileTop({
     location,
     website,
     social,
-    user: { name, profilePicUrl },
+    user: { name, profilePicUrl }, // avatar → profilePicUrl
   },
 }) {
   return (
-    <Segment>
+    <Segment padded>
       <Grid stackable>
-        <Grid.Column width={4} textAlign="center">
-          <Image
-            src={profilePicUrl}
-            size="small"
-            circular
-            centered
-            alt={`${name}'s profile`}
-          />
-        </Grid.Column>
+        <Grid.Row columns={2} verticalAlign="middle">
+          <Grid.Column width={4} textAlign="center">
+            <Image
+              src={profilePicUrl || "/default-avatar.png"}
+              size="small"
+              circular
+              centered
+              alt={`${name}'s avatar`}
+            />
+          </Grid.Column>
 
-        <Grid.Column width={12}>
-          <Header as="h2" style={{ marginBottom: "5px" }}>
-            {name}
-          </Header>
-
-          <p>
-            {status} {company && <span> at {company}</span>}
-          </p>
-
-          {location && (
-            <p>
-              <Icon name="map marker alternate" />
-              {location}
+          <Grid.Column width={12}>
+            <Header as="h2" style={{ marginBottom: "0.5rem" }}>
+              {name}
+            </Header>
+            <p style={{ fontSize: "1.1rem", marginBottom: "0.3rem" }}>
+              {status} {company && <span>at {company}</span>}
             </p>
-          )}
+            {location && (
+              <p style={{ color: "#888", marginBottom: "0.5rem" }}>
+                <Icon name="map marker alternate" />
+                {location}
+              </p>
+            )}
 
-          <Divider />
-
-          <div>
-            {website && (
-              <a href={website} target="_blank" rel="noopener noreferrer">
-                <Icon name="globe" size="large" />
-              </a>
-            )}
-            {social?.twitter && (
-              <a
-                href={social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon name="twitter" color="blue" size="large" />
-              </a>
-            )}
-            {social?.linkedin && (
-              <a
-                href={social.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon name="linkedin" color="blue" size="large" />
-              </a>
-            )}
-            {social?.facebook && (
-              <a
-                href={social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon name="facebook" color="blue" size="large" />
-              </a>
-            )}
-            {social?.instagram && (
-              <a
-                href={social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icon name="instagram" color="pink" size="large" />
-              </a>
-            )}
-          </div>
-        </Grid.Column>
+            <div style={{ marginTop: "1rem" }}>
+              {website && (
+                <Button
+                  as="a"
+                  href={website}
+                  target="_blank"
+                  icon="globe"
+                  circular
+                />
+              )}
+              {social?.facebook && (
+                <Button
+                  as="a"
+                  href={social.facebook}
+                  target="_blank"
+                  icon="facebook"
+                  color="facebook"
+                  circular
+                />
+              )}
+              {social?.linkedin && (
+                <Button
+                  as="a"
+                  href={social.linkedin}
+                  target="_blank"
+                  icon="linkedin"
+                  color="linkedin"
+                  circular
+                />
+              )}
+              {social?.youtube && (
+                <Button
+                  as="a"
+                  href={social.youtube}
+                  target="_blank"
+                  icon="youtube"
+                  color="youtube"
+                  circular
+                />
+              )}
+              {social?.instagram && (
+                <Button
+                  as="a"
+                  href={social.instagram}
+                  target="_blank"
+                  icon="instagram"
+                  color="pink"
+                  circular
+                />
+              )}
+            </div>
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     </Segment>
   );

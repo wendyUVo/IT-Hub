@@ -10,7 +10,6 @@ function Home() {
       <HeaderImage />
       <Layout>
         <NavBar />
-        <div>Loading Posts ....</div>
         <PostsList />
       </Layout>
     </>

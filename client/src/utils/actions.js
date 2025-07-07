@@ -1,5 +1,6 @@
 //Posts
 export const UPDATE_POSTS = "UPDATE_POSTS";
+export const UPDATE_SINGLE_POST = "UPDATE_SINGLE_POST";
 export const REMOVE_POST = "REMOVE_POST";
 export const SET_CURRENT_POST = "SET_CURRENT_POST";
 export const ADD_POST = "ADD_POST";
@@ -15,6 +16,7 @@ export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const GET_PROFILE = "GET_PROFILE";
 export const GET_PROFILES = "GET_PROFILES";
+export const PROFILE_LOADING = "PROFILE_LOADING";
 
 //Alerts
 export const SET_ALERT = "SET_ALERT";

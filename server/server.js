@@ -4,6 +4,7 @@ const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const dotenv = require("dotenv");
 const routes = require("./routes");
+const cors = require("cors");
 
 dotenv.config();
 
@@ -15,17 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Session setup
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "secret", // better to move to .env
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-const cors = require("cors");
-
+// Cors
 app.use(
   cors({
     origin: "http://localhost:5173", // your frontend Vite URL
@@ -33,10 +24,20 @@ app.use(
   })
 );
 
+// Session setup
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret", // better to move to .env
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      sameSite: "lax",
+      secure: false,
+    },
+  })
+);
+
 // Passport config
-// const passport = require("./config/passport"); // if you have a config/passport.js file
-// app.use(passport.initialize());
-// app.use(passport.session());
 const passport = require("passport");
 require("./config/passport");
 app.use(passport.initialize());
@@ -58,11 +59,6 @@ mongoose
   })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
-// mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => console.log("✅ MongoDB connected"))
-//   .catch((err) => console.error("❌ MongoDB connection error:", err));
-// console.log("MONGODB_URI:", process.env.MONGODB_URI);
 
 // ========== Start Server ==========
 app.listen(PORT, () => {

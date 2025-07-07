@@ -4,5 +4,5 @@ module.exports = function (req, res, next) {
     return next();
   }
   // If user is not logged in, redirect to login
-  return res.redirect("/login");
+  return res.status(401).json({ msg: "Unauthorized" });
 };

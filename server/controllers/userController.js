@@ -17,9 +17,23 @@ exports.signup = async (req, res) => {
     // Create new user instance
 
     const newUser = new User({ name, email, password, profilePicUrl });
-
-    // Save user to database
     await newUser.save();
+
+    // //Automatically create a profile for the new user
+    // const newProfile = new Profile({
+    //   user: newUser._id,
+    //   status: "New user",
+    //   skills: [],
+    //   bio: "",
+    //   social: {
+    //     facebook: "",
+    //     youtube: "",
+    //     linkedin: "",
+    //     instagram: "",
+    //   },
+    // });
+
+    // await newProfile.save();
 
     return res.status(201).json({ message: "Sigup success! Please log in." });
   } catch (err) {
